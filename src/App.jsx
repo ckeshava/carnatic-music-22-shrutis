@@ -323,36 +323,125 @@ const CarnaticSwaraExplorer = () => {
   const StringPositionBar = ({ ratio }) => {
     const position = parseFloat(getStringPosition(ratio));
     const stoppedWidth = 100 - position;
+
+    // SVG layout constants
+    const nutX = 10, nutW = 12;
+    const bridgeX = 478, bridgeW = 16;
+    const neckStart = nutX + nutW;       // 22
+    const neckEnd = bridgeX;             // 478
+    const stringLen = neckEnd - neckStart; // 456
+    const stringY = 32;
+
+    const pressX = neckStart + (stoppedWidth / 100) * stringLen;
+    const amplitude = Math.min(3.5, (position / 100) * 5);
+
+    // Generate a sine wave path between two x-coordinates
+    const wavePath = (startX, endX, y, amp) => {
+      const len = endX - startX;
+      if (len <= 2) return `M ${startX} ${y} L ${endX} ${y}`;
+      const segments = 60;
+      let d = `M ${startX} ${y}`;
+      for (let i = 1; i <= segments; i++) {
+        const t = i / segments;
+        const x = startX + t * len;
+        const envelope = Math.sin(Math.PI * t);
+        const yOff = amp * envelope * Math.sin(2 * Math.PI * 4 * t);
+        d += ` L ${x.toFixed(1)} ${(y + yOff).toFixed(1)}`;
+      }
+      return d;
+    };
+
+    const waveUp = wavePath(pressX, neckEnd, stringY, amplitude);
+    const waveDown = wavePath(pressX, neckEnd, stringY, -amplitude);
+
+    // Fret positions (decorative)
+    const frets = Array.from({ length: 10 }, (_, i) =>
+      neckStart + ((i + 1) / 11) * stringLen
+    );
+
     return (
       <div className="mt-2">
-        <div className="flex justify-between text-xs mb-1">
-          <span className="text-gray-500">Nut</span>
-          <span className="text-amber-600 font-medium">Veena String</span>
-          <span className="text-gray-500">Bridge</span>
-        </div>
-        <div className="relative w-full h-5 rounded-full overflow-hidden bg-gray-100 border border-gray-300">
-          {/* Stopped portion */}
-          <div
-            className="absolute left-0 top-0 h-full bg-gray-400 bg-opacity-50"
-            style={{ width: `${stoppedWidth}%` }}
-          />
-          {/* Vibrating portion */}
-          <div
-            className="absolute right-0 top-0 h-full bg-emerald-500 bg-opacity-60"
-            style={{ width: `${position}%` }}
-          />
+        <svg viewBox="0 0 500 68" className="w-full" style={{ maxHeight: '80px' }}>
+          <style>{`
+            @keyframes vibrateUp {
+              0%, 100% { opacity: 1; }
+              50% { opacity: 0; }
+            }
+            @keyframes vibrateDown {
+              0%, 100% { opacity: 0; }
+              50% { opacity: 1; }
+            }
+            .vib-up { animation: vibrateUp 0.06s linear infinite; }
+            .vib-down { animation: vibrateDown 0.06s linear infinite; }
+          `}</style>
+
+          <defs>
+            <linearGradient id="neckGrain" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#A1887F" />
+              <stop offset="50%" stopColor="#8D6E63" />
+              <stop offset="100%" stopColor="#6D4C41" />
+            </linearGradient>
+          </defs>
+
+          {/* Neck / fingerboard */}
+          <rect x={neckStart} y={22} width={stringLen} height={20}
+                fill="url(#neckGrain)" rx={2} />
+
+          {/* Frets */}
+          {frets.map((fx, i) => (
+            <line key={i} x1={fx} y1={22} x2={fx} y2={42}
+                  stroke="#D4C4B0" strokeWidth={1.5} opacity={0.6} />
+          ))}
+
+          {/* Nut */}
+          <rect x={nutX} y={20} width={nutW} height={24}
+                fill="#3E2723" rx={2} />
+
+          {/* Bridge */}
+          <rect x={bridgeX} y={18} width={bridgeW} height={28}
+                fill="#3E2723" rx={2} />
+
+          {/* String — stopped portion (nut → press point) */}
+          <line x1={neckStart} y1={stringY} x2={pressX} y2={stringY}
+                stroke="#B0A090" strokeWidth={1.5} />
+
+          {/* String — vibrating portion (press point → bridge) */}
+          {isPlaying ? (
+            <>
+              <path d={waveUp} fill="none" stroke="#FFD54F"
+                    strokeWidth={1.5} className="vib-up" />
+              <path d={waveDown} fill="none" stroke="#FFD54F"
+                    strokeWidth={1.5} className="vib-down" />
+            </>
+          ) : (
+            <line x1={pressX} y1={stringY} x2={neckEnd} y2={stringY}
+                  stroke="#C9A96E" strokeWidth={1.5} />
+          )}
+
           {/* Press point marker */}
           {stoppedWidth > 0 && (
-            <div
-              className="absolute top-0 h-full w-0.5 bg-gray-800"
-              style={{ left: `${stoppedWidth}%` }}
-            />
+            <circle cx={pressX} cy={stringY} r={4}
+                    fill="#E53935" stroke="#B71C1C" strokeWidth={1} />
           )}
-        </div>
-        <div className="flex justify-between text-xs mt-1">
-          <span className="text-gray-500">{stoppedWidth > 0 ? `${stoppedWidth.toFixed(1)}% stopped` : 'open string'}</span>
-          <span className="text-emerald-700 font-medium">{position.toFixed(1)}% vibrating</span>
-        </div>
+
+          {/* Labels */}
+          <text x={nutX + nutW / 2} y={58} textAnchor="middle"
+                fontSize={8} fill="#5D4037" fontFamily="sans-serif">Nut</text>
+          <text x={bridgeX + bridgeW / 2} y={58} textAnchor="middle"
+                fontSize={8} fill="#5D4037" fontFamily="sans-serif">Bridge</text>
+          {stoppedWidth > 0 && (
+            <text x={pressX} y={58} textAnchor="middle"
+                  fontSize={7} fill="#C62828" fontFamily="sans-serif">
+              {position.toFixed(1)}% vibrating
+            </text>
+          )}
+          {stoppedWidth === 0 && (
+            <text x={(neckStart + neckEnd) / 2} y={58} textAnchor="middle"
+                  fontSize={8} fill="#2E7D32" fontFamily="sans-serif">
+              Open string — 100% vibrating
+            </text>
+          )}
+        </svg>
       </div>
     );
   };
