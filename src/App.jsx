@@ -46,8 +46,8 @@ const CarnaticSwaraExplorer = () => {
     },
     { 
       shruti: 4, 
-      name: 'Tri-shruti Rishabham', 
-      traditionalName: null,
+      name: 'Tri-shruti Rishabham / Eka-shruti Gandharam', 
+      traditionalName: 'Chatushruti Rishabham (R₂)',
       ratio: [10, 9], 
       cents: 182, 
       family: 'R',
@@ -56,7 +56,7 @@ const CarnaticSwaraExplorer = () => {
     },
     { 
       shruti: 5, 
-      name: 'Chatushruti Rishabham', 
+      name: 'Chatushruti Rishabham / Dwi-shruti Gandharam', 
       traditionalName: 'Chatushruti Rishabham (R₂) / Shuddha Gandharam (G₁)',
       ratio: [9, 8], 
       cents: 204, 
@@ -68,7 +68,7 @@ const CarnaticSwaraExplorer = () => {
     // Shrutis 6-9: Gandharam region
     { 
       shruti: 6, 
-      name: 'Pancha-shruti Rishabham', 
+      name: 'Pancha-shruti Rishabham / Tri-shruti Gandharam', 
       traditionalName: null,
       ratio: [32, 27], 
       cents: 294, 
@@ -78,7 +78,7 @@ const CarnaticSwaraExplorer = () => {
     },
     { 
       shruti: 7, 
-      name: 'Shat-shruti Rishabham', 
+      name: 'Shat-shruti Rishabham \ Chatu-shruti Gandharam', 
       traditionalName: 'Shatshruti Rishabham (R₃) / Sadharana Gandharam (G₂)',
       ratio: [6, 5], 
       cents: 316, 
@@ -88,8 +88,8 @@ const CarnaticSwaraExplorer = () => {
     },
     { 
       shruti: 8, 
-      name: 'Shuddha Gandharam (Cyuta)', 
-      traditionalName: null,
+      name: 'Pancha-shruti Gandharam', 
+      traditionalName: 'Antara Gandharam (G₃)',
       ratio: [5, 4], 
       cents: 386, 
       family: 'G',
@@ -98,7 +98,7 @@ const CarnaticSwaraExplorer = () => {
     },
     { 
       shruti: 9, 
-      name: 'Antara Gandharam', 
+      name: 'Shat-shruti Gandharam', 
       traditionalName: 'Antara Gandharam (G₃)',
       ratio: [81, 64], 
       cents: 408, 
@@ -110,7 +110,7 @@ const CarnaticSwaraExplorer = () => {
     // Shrutis 10-13: Madhyamam region
     { 
       shruti: 10, 
-      name: 'Shuddha Madhyamam', 
+      name: 'Eka-shruti Madhyamam / Shuddha Madhyamam', 
       traditionalName: 'Shuddha Madhyamam (M₁)',
       ratio: [4, 3], 
       cents: 498, 
@@ -120,8 +120,8 @@ const CarnaticSwaraExplorer = () => {
     },
     { 
       shruti: 11, 
-      name: 'Shuddha Madhyamam (Tivra)', 
-      traditionalName: null,
+      name: 'Dwi-shruti Madhyamam / Shuddha Madhyamam (Tivra)', 
+      traditionalName: 'Shuddha Madhyamam (M₁)',
       ratio: [27, 20], 
       cents: 520, 
       family: 'M',
@@ -130,7 +130,7 @@ const CarnaticSwaraExplorer = () => {
     },
     { 
       shruti: 12, 
-      name: 'Prati Madhyamam', 
+      name: 'Tri-shruti Madhyamam /  / Prati Madhyamam', 
       traditionalName: 'Prati Madhyamam (M₂)',
       ratio: [45, 32], 
       cents: 590, 
@@ -140,8 +140,8 @@ const CarnaticSwaraExplorer = () => {
     },
     { 
       shruti: 13, 
-      name: 'Prati Madhyamam (Tivra)', 
-      traditionalName: null,
+      name: 'Chatu-shruti Madhyamam', 
+      traditionalName: 'Prati Madhyamam (M₂)',
       ratio: [729, 512], 
       cents: 612, 
       family: 'M',
@@ -175,7 +175,7 @@ const CarnaticSwaraExplorer = () => {
     { 
       shruti: 16, 
       name: 'Dvi-shruti Dhaivatam', 
-      traditionalName: null,
+      traditionalName: 'Shuddha Dhaivatam (D₁)',
       ratio: [8, 5], 
       cents: 814, 
       family: 'D',
@@ -184,8 +184,8 @@ const CarnaticSwaraExplorer = () => {
     },
     { 
       shruti: 17, 
-      name: 'Tri-shruti Dhaivatam', 
-      traditionalName: null,
+      name: 'Eka-shruti Nishadam / Tri-shruti Dhaivatam', 
+      traditionalName: 'Chatushruti Dhaivatam (D₂) / Shuddha Nishadam (N₁)',
       ratio: [5, 3], 
       cents: 884, 
       family: 'D',
@@ -194,7 +194,7 @@ const CarnaticSwaraExplorer = () => {
     },
     { 
       shruti: 18, 
-      name: 'Chatushruti Dhaivatam', 
+      name: 'Dwi-shruti Nishadam / Chatushruti Dhaivatam', 
       traditionalName: 'Chatushruti Dhaivatam (D₂) / Shuddha Nishadam (N₁)',
       ratio: [27, 16], 
       cents: 906, 
@@ -206,8 +206,8 @@ const CarnaticSwaraExplorer = () => {
     // Shrutis 19-22: Nishadam region
     { 
       shruti: 19, 
-      name: 'Pancha-shruti Dhaivatam', 
-      traditionalName: null,
+      name: 'Tri-shruti Nishadam / Pancha-shruti Dhaivatam', 
+      traditionalName: 'Shatshruti Dhaivatam (D₃) / Kaisiki Nishadam (N₂)',
       ratio: [16, 9], 
       cents: 996, 
       family: 'N',
@@ -226,8 +226,8 @@ const CarnaticSwaraExplorer = () => {
     },
     { 
       shruti: 21, 
-      name: 'Kaisiki Nishadam (Cyuta)', 
-      traditionalName: null,
+      name: 'Pancha-shruti Nishadam / Kaisiki Nishadam', 
+      traditionalName: 'Kaisiki Nishadam',
       ratio: [15, 8], 
       cents: 1088, 
       family: 'N',
@@ -236,7 +236,7 @@ const CarnaticSwaraExplorer = () => {
     },
     { 
       shruti: 22, 
-      name: 'Kakali Nishadam', 
+      name: 'Shat-shruti Nishadam / Kakali Nishadam', 
       traditionalName: 'Kakali Nishadam (N₃)',
       ratio: [243, 128], 
       cents: 1110, 
