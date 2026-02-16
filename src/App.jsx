@@ -294,10 +294,6 @@ const CarnaticSwaraExplorer = () => {
     return baseFrequency * (ratio[0] / ratio[1]);
   };
 
-  const calculateCents = (ratio) => {
-    return 1200 * Math.log2(ratio[0] / ratio[1]);
-  };
-
   const playSwara = (swara) => {
     setSelectedSwara(swara);
     const freq = calculateFrequency(swara.ratio);
@@ -385,7 +381,6 @@ const CarnaticSwaraExplorer = () => {
           {[
             { id: 'swaras', label: '12 Swaras' },
             { id: '22shrutis', label: '22 Shrutis' },
-            { id: 'custom', label: 'Custom Ratios' },
             { id: 'theory', label: 'Theory & Formulas' },
             { id: 'references', label: 'Further Reading' }
           ].map(tab => (
@@ -603,10 +598,6 @@ const CarnaticSwaraExplorer = () => {
                       <div className="font-mono font-bold">{(selectedSwara.ratio[0]/selectedSwara.ratio[1]).toFixed(4)}</div>
                     </div>
                     <div className="bg-white bg-opacity-50 p-2 rounded">
-                      <span className="text-xs opacity-70">Cents</span>
-                      <div className="font-mono font-bold">{selectedSwara.cents || calculateCents(selectedSwara.ratio).toFixed(1)}</div>
-                    </div>
-                    <div className="bg-white bg-opacity-50 p-2 rounded">
                       <span className="text-xs opacity-70">String Position</span>
                       <div className="font-mono font-bold">{getStringPosition(selectedSwara.ratio)}%</div>
                     </div>
@@ -623,106 +614,6 @@ const CarnaticSwaraExplorer = () => {
             </div>
           </div>
         )}
-
-        {/* Custom Ratios Tab */}
-        {activeTab === 'custom' && (
-          <div className="bg-white rounded-xl p-4 md:p-6 shadow-lg border border-amber-200">
-            <h3 className="text-lg font-semibold text-amber-800 mb-4">🔢 Custom Ratio Explorer</h3>
-            <p className="text-amber-700 mb-6">
-              Create any frequency by specifying a ratio. This helps students understand how mathematical relationships create musical intervals.
-            </p>
-            
-            <div className="flex flex-wrap items-center gap-4 mb-6">
-              <div className="flex items-center gap-2">
-                <label className="text-amber-700">Frequency = Sa ×</label>
-                <input
-                  type="number"
-                  min="1"
-                  max="1000"
-                  value={customRatio.num}
-                  onChange={(e) => setCustomRatio({...customRatio, num: parseInt(e.target.value) || 1})}
-                  className="w-20 p-2 border-2 border-amber-300 rounded-lg text-center text-lg"
-                />
-                <span className="text-2xl text-amber-700">/</span>
-                <input
-                  type="number"
-                  min="1"
-                  max="1000"
-                  value={customRatio.den}
-                  onChange={(e) => setCustomRatio({...customRatio, den: parseInt(e.target.value) || 1})}
-                  className="w-20 p-2 border-2 border-amber-300 rounded-lg text-center text-lg"
-                />
-              </div>
-              <button
-                onClick={playCustomRatio}
-                className="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-lg font-medium"
-              >
-                ▶ Play
-              </button>
-            </div>
-
-            <div className="p-4 bg-amber-50 rounded-lg mb-6">
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                <div>
-                  <span className="text-sm text-amber-600">Frequency</span>
-                  <div className="text-xl font-mono text-amber-800">
-                    {(baseFrequency * customRatio.num / customRatio.den).toFixed(2)} Hz
-                  </div>
-                </div>
-                <div>
-                  <span className="text-sm text-amber-600">Decimal</span>
-                  <div className="text-xl font-mono text-amber-800">
-                    {(customRatio.num / customRatio.den).toFixed(4)}
-                  </div>
-                </div>
-                <div>
-                  <span className="text-sm text-amber-600">Cents</span>
-                  <div className="text-xl font-mono text-amber-800">
-                    {(1200 * Math.log2(customRatio.num / customRatio.den)).toFixed(1)}
-                  </div>
-                </div>
-                <div>
-                  <span className="text-sm text-amber-600">String Position</span>
-                  <div className="text-xl font-mono text-amber-800">
-                    {((customRatio.den / customRatio.num) * 100).toFixed(2)}%
-                  </div>
-                </div>
-                <div>
-                  <span className="text-sm text-amber-600">Formula</span>
-                  <div className="text-lg font-mono text-amber-800">
-                    {baseFrequency.toFixed(1)} × {customRatio.num}/{customRatio.den}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Quick presets */}
-            <div>
-              <h4 className="font-medium text-amber-800 mb-3">Common Ratios:</h4>
-              <div className="flex flex-wrap gap-2">
-                {[
-                  { label: 'Octave', num: 2, den: 1 },
-                  { label: 'Pa (Fifth)', num: 3, den: 2 },
-                  { label: 'Ma (Fourth)', num: 4, den: 3 },
-                  { label: 'Ga (Just M3)', num: 5, den: 4 },
-                  { label: 'Ga (Pyth M3)', num: 81, den: 64 },
-                  { label: 'Ri (M2)', num: 9, den: 8 },
-                  { label: 'Komal Ri', num: 256, den: 243 },
-                  { label: 'Syntonic Comma', num: 81, den: 80 },
-                ].map((preset, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setCustomRatio({ num: preset.num, den: preset.den })}
-                    className="px-3 py-2 bg-amber-100 hover:bg-amber-200 rounded-lg text-sm"
-                  >
-                    {preset.label} ({preset.num}:{preset.den})
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* Theory Tab */}
         {activeTab === 'theory' && (
           <div className="space-y-6">
@@ -746,13 +637,13 @@ const CarnaticSwaraExplorer = () => {
                   </div>
                 </div>
 
-                <div>
+                {/* <div>
                   <h4 className="font-semibold text-amber-800 mb-2">Cents Calculation</h4>
                   <div className="bg-amber-50 p-4 rounded-lg font-mono text-center">
                     <div className="text-lg mb-2"><strong>Cents = 1200 × log₂(Ratio)</strong></div>
                     <div className="text-sm">One octave = 1200 cents | Semitone ≈ 100 cents</div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
 
@@ -767,9 +658,9 @@ const CarnaticSwaraExplorer = () => {
                     <th className="p-2 text-left border border-amber-300">Shruti Name</th>
                     <th className="p-2 text-left border border-amber-300">Ratio</th>
                     <th className="p-2 text-left border border-amber-300">Decimal</th>
-                    <th className="p-2 text-left border border-amber-300">Cents</th>
+                    {/* <th className="p-2 text-left border border-amber-300">Cents</th> */}
                     <th className="p-2 text-left border border-amber-300">Hz (Sa={baseFrequency.toFixed(0)})</th>
-                    <th className="p-2 text-left border border-amber-300">String %</th>
+                    {/* <th className="p-2 text-left border border-amber-300">String %</th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -783,22 +674,22 @@ const CarnaticSwaraExplorer = () => {
                         {s.shruti} {s.is12Note && '✦'}
                       </td>
                       <td className="p-2 border border-amber-200 text-xs">
-                        {s.name}
+                        {s.name + ' || ' + s.traditionalName}
                       </td>
                       <td className="p-2 border border-amber-200 font-mono">{s.ratio[0]}:{s.ratio[1]}</td>
                       <td className="p-2 border border-amber-200 font-mono">{(s.ratio[0]/s.ratio[1]).toFixed(4)}</td>
-                      <td className="p-2 border border-amber-200 font-mono">{s.cents || calculateCents(s.ratio).toFixed(1)}</td>
+                      {/* <td className="p-2 border border-amber-200 font-mono">{s.cents || calculateCents(s.ratio).toFixed(1)}</td> */}
                       <td className="p-2 border border-amber-200 font-mono">{calculateFrequency(s.ratio).toFixed(2)}</td>
-                      <td className="p-2 border border-amber-200 font-mono">{getStringPosition(s.ratio)}%</td>
+                      {/* <td className="p-2 border border-amber-200 font-mono">{getStringPosition(s.ratio)}%</td> */}
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
 
-            {/* Teaching Tips */}
+            {/* Learning Tips */}
             <div className="bg-white rounded-xl p-4 md:p-6 shadow-lg border border-amber-200">
-              <h3 className="text-lg font-semibold text-amber-800 mb-4">👩‍🏫 Teaching Exercises</h3>
+              <h3 className="text-lg font-semibold text-amber-800 mb-4">👩‍🏫 Learning Exercises</h3>
               <div className="space-y-3">
                 <div className="flex gap-3 p-3 bg-amber-50 rounded-lg">
                   <span className="text-xl">1️⃣</span>
@@ -810,15 +701,8 @@ const CarnaticSwaraExplorer = () => {
                 <div className="flex gap-3 p-3 bg-amber-50 rounded-lg">
                   <span className="text-xl">2️⃣</span>
                   <div>
-                    <strong>Just vs Pythagorean:</strong> Compare Shruti #8 (5:4 just major third) with 
-                    Shruti #9 (81:64 Pythagorean major third). Both are forms of Gandharam — can students hear the 22-cent difference?
-                  </div>
-                </div>
-                <div className="flex gap-3 p-3 bg-amber-50 rounded-lg">
-                  <span className="text-xl">3️⃣</span>
-                  <div>
-                    <strong>12 vs 22:</strong> Toggle between the "12 Swaras" and "22 Shrutis" tabs to show students 
-                    how the 12 standard positions (marked ✦) fit within the larger 22-shruti framework.
+                    <strong>Just vs Pythagorean Tuning:</strong> Compare Shruti #8 (5:4 just major third) with 
+                    Shruti #9 (81:64 Pythagorean major third). Both are forms of Gandharam — can students hear the small difference?
                   </div>
                 </div>
                 <div className="flex gap-3 p-3 bg-amber-50 rounded-lg">
@@ -861,15 +745,6 @@ const CarnaticSwaraExplorer = () => {
                   <a href="https://en.wikipedia.org/wiki/Shruti_(music)" target="_blank" rel="noopener noreferrer"
                      className="text-blue-600 hover:underline text-sm mt-2 inline-block">
                     https://en.wikipedia.org/wiki/Shruti_(music)
-                  </a>
-                </div>
-
-                <div className="p-4 bg-amber-50 rounded-lg border border-amber-200">
-                  <div className="font-semibold text-amber-800">Wikipedia: Cent (music)</div>
-                  <div className="text-sm text-amber-700 mt-1">Overview of cent -- Measure of music interval</div>
-                  <a href="https://en.wikipedia.org/wiki/Cent_(music)" target="_blank" rel="noopener noreferrer"
-                     className="text-blue-600 hover:underline text-sm mt-2 inline-block">
-                    https://en.wikipedia.org/wiki/Cent_(music)
                   </a>
                 </div>
               </div>
