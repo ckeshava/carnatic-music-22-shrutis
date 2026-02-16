@@ -691,7 +691,7 @@ const CarnaticSwaraExplorer = () => {
                         {s.shruti} {s.is12Note && '✦'}
                       </td>
                       <td className="p-2 border border-amber-200 text-xs">
-                        {s.name + ' || ' + s.traditionalName}
+                        {s.name}
                       </td>
                       <td className="p-2 border border-amber-200 font-mono">{s.ratio[0]}:{s.ratio[1]}</td>
                       <td className="p-2 border border-amber-200 font-mono">{(s.ratio[0]/s.ratio[1]).toFixed(4)}</td>
