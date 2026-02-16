@@ -3,7 +3,6 @@ import React, { useState, useRef } from 'react';
 const CarnaticSwaraExplorer = () => {
   const [baseFrequency, setBaseFrequency] = useState(261.63);
   const [selectedSwara, setSelectedSwara] = useState(null);
-  const [customRatio, setCustomRatio] = useState({ num: 3, den: 2 });
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeTab, setActiveTab] = useState('swaras');
   const [selectedSwaraFamily, setSelectedSwaraFamily] = useState('all');
@@ -247,13 +246,6 @@ const CarnaticSwaraExplorer = () => {
     },
   ];
 
-  // Three types of shruti intervals
-  const shrutiIntervals = {
-    pramana: { ratio: [81, 80], cents: 21.5, name: 'Pramana Shruti (Syntonic Comma)', description: 'The smallest interval (~22 cents)' },
-    nyuna: { ratio: [25, 24], cents: 70.7, name: 'Nyuna Shruti (Small)', description: 'Small chromatic semitone (~71 cents)' },
-    poorna: { ratio: [256, 243], cents: 90.2, name: 'Poorna Shruti (Large)', description: 'Pythagorean limma (~90 cents)' },
-  };
-
   const initAudio = () => {
     if (!audioContextRef.current) {
       audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
@@ -300,11 +292,6 @@ const CarnaticSwaraExplorer = () => {
     playFrequency(freq);
   };
 
-  const playCustomRatio = () => {
-    const freq = baseFrequency * (customRatio.num / customRatio.den);
-    playFrequency(freq);
-  };
-
   const getStringPosition = (ratio) => {
     return ((ratio[1] / ratio[0]) * 100).toFixed(2);
   };
@@ -339,10 +326,8 @@ const CarnaticSwaraExplorer = () => {
         {/* Header */}
         <div className="text-center mb-6">
           <h1 className="text-3xl md:text-4xl font-bold text-amber-800 mb-2">
-            ద్వావింశతి శ్రుతులు
+          Twenty-Two Shrutis of Carnatic Music
           </h1>
-          <h2 className="text-xl md:text-2xl text-amber-700 mb-1">Dvāviṃśati Śrutayaḥ</h2>
-          <p className="text-amber-600">The Twenty-Two Shrutis of Carnatic Music</p>
         </div>
 
         {/* Base Frequency Control */}
@@ -636,14 +621,6 @@ const CarnaticSwaraExplorer = () => {
                     <div className="text-sm">For Pa (3:2): Position = (2/3) × 100 = 66.67% of string length</div>
                   </div>
                 </div>
-
-                {/* <div>
-                  <h4 className="font-semibold text-amber-800 mb-2">Cents Calculation</h4>
-                  <div className="bg-amber-50 p-4 rounded-lg font-mono text-center">
-                    <div className="text-lg mb-2"><strong>Cents = 1200 × log₂(Ratio)</strong></div>
-                    <div className="text-sm">One octave = 1200 cents | Semitone ≈ 100 cents</div>
-                  </div>
-                </div> */}
               </div>
             </div>
 
