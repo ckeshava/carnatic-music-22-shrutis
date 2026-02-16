@@ -316,9 +316,46 @@ const CarnaticSwaraExplorer = () => {
     'N': 'bg-purple-500 text-white',
   };
 
-  const filteredShrutis = selectedSwaraFamily === 'all' 
-    ? twentyTwoShrutis 
+  const filteredShrutis = selectedSwaraFamily === 'all'
+    ? twentyTwoShrutis
     : twentyTwoShrutis.filter(s => s.family === selectedSwaraFamily);
+
+  const StringPositionBar = ({ ratio }) => {
+    const position = parseFloat(getStringPosition(ratio));
+    const stoppedWidth = 100 - position;
+    return (
+      <div className="mt-2">
+        <div className="flex justify-between text-xs mb-1">
+          <span className="text-gray-500">Nut</span>
+          <span className="text-amber-600 font-medium">Veena String</span>
+          <span className="text-gray-500">Bridge</span>
+        </div>
+        <div className="relative w-full h-5 rounded-full overflow-hidden bg-gray-100 border border-gray-300">
+          {/* Stopped portion */}
+          <div
+            className="absolute left-0 top-0 h-full bg-gray-400 bg-opacity-50"
+            style={{ width: `${stoppedWidth}%` }}
+          />
+          {/* Vibrating portion */}
+          <div
+            className="absolute right-0 top-0 h-full bg-emerald-500 bg-opacity-60"
+            style={{ width: `${position}%` }}
+          />
+          {/* Press point marker */}
+          {stoppedWidth > 0 && (
+            <div
+              className="absolute top-0 h-full w-0.5 bg-gray-800"
+              style={{ left: `${stoppedWidth}%` }}
+            />
+          )}
+        </div>
+        <div className="flex justify-between text-xs mt-1">
+          <span className="text-gray-500">{stoppedWidth > 0 ? `${stoppedWidth.toFixed(1)}% stopped` : 'open string'}</span>
+          <span className="text-emerald-700 font-medium">{position.toFixed(1)}% vibrating</span>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 p-4 md:p-6">
@@ -328,6 +365,7 @@ const CarnaticSwaraExplorer = () => {
           <h1 className="text-3xl md:text-4xl font-bold text-amber-800 mb-2">
           Twenty-Two Shrutis of Carnatic Music
           </h1>
+          <p>This website demonstrates the static 22 shrutis used in Ancient Indian Carnatic Music system</p>
         </div>
 
         {/* Base Frequency Control */}
@@ -449,6 +487,7 @@ const CarnaticSwaraExplorer = () => {
                       <div className="text-lg font-mono">{getStringPosition(selectedSwara.ratio)}%</div>
                     </div>
                   </div>
+                  <StringPositionBar ratio={selectedSwara.ratio} />
                   <p className="mt-3 text-amber-700">{selectedSwara.description}</p>
                 </div>
               )}
@@ -587,6 +626,7 @@ const CarnaticSwaraExplorer = () => {
                       <div className="font-mono font-bold">{getStringPosition(selectedSwara.ratio)}%</div>
                     </div>
                   </div>
+                  <StringPositionBar ratio={selectedSwara.ratio} />
                   <p className="mt-3 text-sm">{selectedSwara.description}</p>
                   <div className="mt-3 p-2 bg-white bg-opacity-50 rounded">
                     <span className="text-xs opacity-70">Formula</span>
@@ -722,6 +762,15 @@ const CarnaticSwaraExplorer = () => {
                   <a href="https://en.wikipedia.org/wiki/Shruti_(music)" target="_blank" rel="noopener noreferrer"
                      className="text-blue-600 hover:underline text-sm mt-2 inline-block">
                     https://en.wikipedia.org/wiki/Shruti_(music)
+                  </a>
+                </div>
+
+                <div className="p-4 bg-amber-50 rounded-lg border border-amber-200">
+                  <div className="font-semibold text-amber-800">Lecture: Relevance of 22 shrutis/microtones today</div>
+                  <div className="text-sm text-amber-700 mt-1">This is a lecture by Vid. S Sowmya in Madras Music Academy</div>
+                  <a href="https://www.youtube.com/watch?v=MbcoX6xXyGA" target="_blank" rel="noopener noreferrer"
+                     className="text-blue-600 hover:underline text-sm mt-2 inline-block">
+                    Relevance of 22 Srutis/Microtones today | Dr. S Sowmya | 31 Dec 2019 | The Music academy
                   </a>
                 </div>
               </div>

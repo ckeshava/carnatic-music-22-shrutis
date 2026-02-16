@@ -5,8 +5,7 @@ An interactive educational tool for learning the 22 shrutis of Carnatic classica
 ## Features
 
 - **12 Swaras Tab**: Play and explore the standard 12 swarasthanas with traditional Sanskrit names
-- **22 Shrutis Tab**: Explore all 22 microtonal positions with Dr. Vidyadhar Oke's nomenclature
-- **Custom Ratios Tab**: Experiment with any frequency ratio
+- **22 Shrutis Tab**: Explore all 22 microtonal positions
 - **Theory & Formulas Tab**: Learn the mathematical foundations
 - **Further Reading Tab**: References and sources
 
@@ -20,7 +19,7 @@ Make sure you have [Node.js](https://nodejs.org/) installed (version 16 or highe
 
 1. Open a terminal and navigate to this folder:
    ```bash
-   cd carnatic-shruti-app
+   cd carnatic-music-22-shrutis
    ```
 
 2. Install dependencies:
