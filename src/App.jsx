@@ -78,7 +78,7 @@ const CarnaticSwaraExplorer = () => {
     },
     { 
       shruti: 7, 
-      name: 'Shat-shruti Rishabham \ Chatu-shruti Gandharam', 
+      name: 'Shat-shruti Rishabham / Chatu-shruti Gandharam', 
       traditionalName: 'Shatshruti Rishabham (R₃) / Sadharana Gandharam (G₂)',
       ratio: [6, 5], 
       cents: 316, 
@@ -130,7 +130,7 @@ const CarnaticSwaraExplorer = () => {
     },
     { 
       shruti: 12, 
-      name: 'Tri-shruti Madhyamam /  / Prati Madhyamam', 
+      name: 'Tri-shruti Madhyamam / Prati Madhyamam', 
       traditionalName: 'Prati Madhyamam (M₂)',
       ratio: [45, 32], 
       cents: 590, 
@@ -936,7 +936,7 @@ const CarnaticSwaraExplorer = () => {
                   </div>
                 </div>
                 <div className="flex gap-3 p-3 bg-amber-50 rounded-lg">
-                  <span className="text-xl">4️⃣</span>
+                  <span className="text-xl">3️⃣</span>
                   <div>
                     <strong>String position demonstration:</strong> Use the table to show that pressing a veena string 
                     at 66.67% of its length produces Panchamam (3:2), while 75% produces Madhyamam (4:3).
