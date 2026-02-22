@@ -7,6 +7,7 @@ import {
   calculateFrequency,
   getStringPosition,
 } from './shrutiData';
+import ShrutiRuler from './ShrutiRuler.tsx';
 
 const CarnaticSwaraExplorer = () => {
   const [baseFrequency, setBaseFrequency] = useState(261.63);
@@ -392,7 +393,9 @@ const CarnaticSwaraExplorer = () => {
               <p className="text-amber-600 mb-4 text-sm">
                 Shrutis with traditional 12-note names are marked with ✦.
               </p>
-              
+
+              <ShrutiRuler selectedSwara={selectedSwara} onPlaySwara={playSwara} />
+
               {/* Family Filter */}
               <div className="flex flex-wrap gap-2 mb-4">
                 <button
@@ -418,34 +421,50 @@ const CarnaticSwaraExplorer = () => {
                 ))}
               </div>
 
-              {/* Shruti Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-3 mb-6">
-                {filteredShrutis.map((shruti, i) => {
-                  const freq = calculateFrequency(baseFrequency, shruti.ratio);
-                  const isSelected = selectedSwara?.shruti === shruti.shruti;
-                  return (
-                    <button
-                      key={i}
-                      onClick={() => playSwara(shruti)}
-                      className={`p-2 md:p-3 rounded-lg transition-all duration-200 border-2 text-left ${
-                        isSelected 
-                          ? familySelectedColors[shruti.family] + ' border-gray-600 shadow-lg' 
-                          : familyColors[shruti.family]
-                      } ${shruti.is12Note ? 'ring-2 ring-amber-400 ring-offset-1' : ''}`}
-                    >
-                      <div className="flex justify-between items-start">
-                        <div className="font-bold text-sm">
-                          #{shruti.shruti} {shruti.is12Note && '✦'}
-                        </div>
+              {/* Shruti Grid — grouped by family */}
+              <div className="space-y-4 mb-6">
+                {['S', 'R', 'G', 'M', 'P', 'D', 'N']
+                  .map(family => ({
+                    family,
+                    shrutis: filteredShrutis.filter(s => s.family === family),
+                  }))
+                  .filter(g => g.shrutis.length > 0)
+                  .map(({ family, shrutis }) => (
+                    <div key={family}>
+                      <div className={`inline-block px-3 py-1 rounded-t-lg text-sm font-semibold ${familySelectedColors[family]}`}>
+                        {family} — {{ S: 'Shadjam', R: 'Rishabham', G: 'Gandharam', M: 'Madhyamam', P: 'Panchamam', D: 'Dhaivatam', N: 'Nishadam' }[family]}
+                        <span className="ml-2 font-normal opacity-80">({shrutis.length} {shrutis.length === 1 ? 'shruti' : 'shrutis'})</span>
                       </div>
-                      <div className="text-xs mt-1 font-medium opacity-90">
-                        {shruti.name}
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
+                        {shrutis.map((shruti) => {
+                          const freq = calculateFrequency(baseFrequency, shruti.ratio);
+                          const isSelected = selectedSwara?.shruti === shruti.shruti;
+                          return (
+                            <button
+                              key={shruti.shruti}
+                              onClick={() => playSwara(shruti)}
+                              className={`p-2 md:p-3 rounded-lg transition-all duration-200 border-2 text-left ${
+                                isSelected
+                                  ? familySelectedColors[shruti.family] + ' border-gray-600 shadow-lg'
+                                  : familyColors[shruti.family]
+                              } ${shruti.is12Note ? 'ring-2 ring-amber-400 ring-offset-1' : ''}`}
+                            >
+                              <div className="flex justify-between items-start">
+                                <div className="font-bold text-sm">
+                                  #{shruti.shruti} {shruti.is12Note && '✦'}
+                                </div>
+                              </div>
+                              <div className="text-xs mt-1 font-medium opacity-90">
+                                {shruti.name}
+                              </div>
+                              <div className="text-xs font-mono mt-1">{shruti.ratio[0]}:{shruti.ratio[1]}</div>
+                              <div className="text-xs opacity-75">{freq.toFixed(1)} Hz</div>
+                            </button>
+                          );
+                        })}
                       </div>
-                      <div className="text-xs font-mono mt-1">{shruti.ratio[0]}:{shruti.ratio[1]}</div>
-                      <div className="text-xs opacity-75">{freq.toFixed(1)} Hz</div>
-                    </button>
-                  );
-                })}
+                    </div>
+                  ))}
               </div>
 
               <div className="text-xs text-amber-600 mb-4">
