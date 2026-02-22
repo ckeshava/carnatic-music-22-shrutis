@@ -253,7 +253,7 @@ const CarnaticSwaraExplorer = () => {
     return audioContextRef.current;
   };
 
-  const playFrequency = (frequency, duration = 1.5) => {
+  const playFrequency = (frequency, duration = 6) => {
     const ctx = initAudio();
     
     if (oscillatorRef.current) {
@@ -319,6 +319,104 @@ const CarnaticSwaraExplorer = () => {
   const filteredShrutis = selectedSwaraFamily === 'all'
     ? twentyTwoShrutis
     : twentyTwoShrutis.filter(s => s.family === selectedSwaraFamily);
+
+  const raagaExamples = {
+    'S': {
+      description: 'Shadjam is the tonic note, present in every raga as the fundamental reference pitch (adhara shadja).',
+      ragas: []
+    },
+    'R₁': {
+      description: 'Shuddha Rishabham appears in many important ragas, especially in the Todi and Mayamalavagowla families.',
+      ragas: [
+        { name: 'Mayamalavagowla', melakarta: 15, scale: 'S R₁ G₃ M₁ P D₁ N₃', description: 'The foundational raga for beginners in Carnatic music' },
+        { name: 'Hanumatodi', melakarta: 8, scale: 'S R₁ G₂ M₁ P D₁ N₂', description: 'One of the most majestic and expressive ragas' },
+        { name: 'Subhapantuvarali', melakarta: 45, scale: 'S R₁ G₂ M₂ P D₁ N₃', description: 'A profound and meditative raga' },
+      ]
+    },
+    'R₂/G₁': {
+      description: 'Called R₂ (Chatushruti Rishabham) when R₁ is absent, and G₁ (Shuddha Gandharam) when R₁ is already present in the raga.',
+      ragas: [
+        { name: 'Shankarabharanam', melakarta: 29, scale: 'S R₂ G₃ M₁ P D₂ N₃', noteUsedAs: 'R₂', description: 'The Carnatic equivalent of the Western major scale' },
+        { name: 'Kharaharapriya', melakarta: 22, scale: 'S R₂ G₂ M₁ P D₂ N₂', noteUsedAs: 'R₂', description: 'One of the most versatile melakartas' },
+        { name: 'Kalyani', melakarta: 65, scale: 'S R₂ G₃ M₂ P D₂ N₃', noteUsedAs: 'R₂', description: 'Known for its grandeur and auspiciousness' },
+      ]
+    },
+    'R₃/G₂': {
+      description: 'Called R₃ (Shatshruti Rishabham) or G₂ (Sadharana Gandharam) depending on the raga context.',
+      ragas: [
+        { name: 'Hanumatodi', melakarta: 8, scale: 'S R₁ G₂ M₁ P D₁ N₂', noteUsedAs: 'G₂', description: 'Uses this position as Sadharana Gandharam' },
+        { name: 'Kharaharapriya', melakarta: 22, scale: 'S R₂ G₂ M₁ P D₂ N₂', noteUsedAs: 'G₂', description: 'G₂ gives this raga its characteristic emotion' },
+        { name: 'Natabhairavi', melakarta: 20, scale: 'S R₂ G₂ M₁ P D₁ N₂', noteUsedAs: 'G₂', description: 'A serene and contemplative raga' },
+      ]
+    },
+    'G₃': {
+      description: 'Antara Gandharam features prominently in bright, majestic ragas.',
+      ragas: [
+        { name: 'Shankarabharanam', melakarta: 29, scale: 'S R₂ G₃ M₁ P D₂ N₃', description: 'G₃ gives it the brilliant major-scale character' },
+        { name: 'Kalyani', melakarta: 65, scale: 'S R₂ G₃ M₂ P D₂ N₃', description: 'G₃ contributes to Kalyani\'s characteristic brightness' },
+        { name: 'Mayamalavagowla', melakarta: 15, scale: 'S R₁ G₃ M₁ P D₁ N₃', description: 'The first raga taught to students' },
+        { name: 'Hamsadhwani', janya: true, scale: 'S R₂ G₃ P N₃', description: 'A beloved pentatonic raga' },
+      ]
+    },
+    'M₁': {
+      description: 'Shuddha Madhyamam (perfect fourth) appears in all Shuddha Madhyama melakartas (1\u201336).',
+      ragas: [
+        { name: 'Shankarabharanam', melakarta: 29, scale: 'S R₂ G₃ M₁ P D₂ N₃', description: 'The natural fourth adds stability and groundedness' },
+        { name: 'Kharaharapriya', melakarta: 22, scale: 'S R₂ G₂ M₁ P D₂ N₂', description: 'M₁ provides the emotional anchor' },
+        { name: 'Hanumatodi', melakarta: 8, scale: 'S R₁ G₂ M₁ P D₁ N₂', description: 'M₁ in Todi is deeply expressive' },
+        { name: 'Mayamalavagowla', melakarta: 15, scale: 'S R₁ G₃ M₁ P D₁ N₃', description: 'The natural Madhyamam in the beginner\'s raga' },
+      ]
+    },
+    'M₂': {
+      description: 'Prati Madhyamam (augmented fourth) appears in all Prati Madhyama melakartas (37\u201372).',
+      ragas: [
+        { name: 'Kalyani', melakarta: 65, scale: 'S R₂ G₃ M₂ P D₂ N₃', description: 'M₂ is the defining characteristic of Kalyani' },
+        { name: 'Vachaspati', melakarta: 64, scale: 'S R₂ G₃ M₂ P D₂ N₂', description: 'A bright and versatile raga' },
+        { name: 'Simhendramadhyamam', melakarta: 57, scale: 'S R₂ G₃ M₂ P D₁ N₂', description: 'A unique and evocative raga' },
+        { name: 'Subhapantuvarali', melakarta: 45, scale: 'S R₁ G₂ M₂ P D₁ N₃', description: 'M₂ adds intensity to this profound raga' },
+      ]
+    },
+    'P': {
+      description: 'Panchamam is a prakruti (unchanging) swara like Shadjam, present in most ragas. A few rare ragas like Shri omit it.',
+      ragas: []
+    },
+    'D₁': {
+      description: 'Shuddha Dhaivatam often imparts a devotional or introspective mood to ragas.',
+      ragas: [
+        { name: 'Mayamalavagowla', melakarta: 15, scale: 'S R₁ G₃ M₁ P D₁ N₃', description: 'D₁ contributes to its characteristic sound' },
+        { name: 'Hanumatodi', melakarta: 8, scale: 'S R₁ G₂ M₁ P D₁ N₂', description: 'D₁ adds pathos to Todi' },
+        { name: 'Natabhairavi', melakarta: 20, scale: 'S R₂ G₂ M₁ P D₁ N₂', description: 'D₁ gives Natabhairavi its serene quality' },
+        { name: 'Simhendramadhyamam', melakarta: 57, scale: 'S R₂ G₃ M₂ P D₁ N₂', description: 'D₁ creates a unique tension in this raga' },
+      ]
+    },
+    'D₂/N₁': {
+      description: 'Called D₂ (Chatushruti Dhaivatam) when D₁ is absent, and N₁ (Shuddha Nishadam) when D₁ is already present in the raga.',
+      ragas: [
+        { name: 'Shankarabharanam', melakarta: 29, scale: 'S R₂ G₃ M₁ P D₂ N₃', noteUsedAs: 'D₂', description: 'Uses this as Chatushruti Dhaivatam' },
+        { name: 'Kalyani', melakarta: 65, scale: 'S R₂ G₃ M₂ P D₂ N₃', noteUsedAs: 'D₂', description: 'D₂ enhances Kalyani\'s brilliance' },
+        { name: 'Kharaharapriya', melakarta: 22, scale: 'S R₂ G₂ M₁ P D₂ N₂', noteUsedAs: 'D₂', description: 'A key note in this versatile raga' },
+        { name: 'Harikambhoji', melakarta: 28, scale: 'S R₂ G₃ M₁ P D₂ N₂', noteUsedAs: 'D₂', description: 'Parent of many popular janya ragas like Mohanam and Kambhoji' },
+      ]
+    },
+    'D₃/N₂': {
+      description: 'Called D₃ (Shatshruti Dhaivatam) or N₂ (Kaisiki Nishadam) depending on the raga context.',
+      ragas: [
+        { name: 'Hanumatodi', melakarta: 8, scale: 'S R₁ G₂ M₁ P D₁ N₂', noteUsedAs: 'N₂', description: 'Kaisiki Nishadam gives Todi its poignant quality' },
+        { name: 'Kharaharapriya', melakarta: 22, scale: 'S R₂ G₂ M₁ P D₂ N₂', noteUsedAs: 'N₂', description: 'N₂ adds depth to Kharaharapriya' },
+        { name: 'Natabhairavi', melakarta: 20, scale: 'S R₂ G₂ M₁ P D₁ N₂', noteUsedAs: 'N₂', description: 'The gentle N₂ in this contemplative raga' },
+        { name: 'Harikambhoji', melakarta: 28, scale: 'S R₂ G₃ M₁ P D₂ N₂', noteUsedAs: 'N₂', description: 'N₂ softens the brightness of Harikambhoji' },
+      ]
+    },
+    'N₃': {
+      description: 'Kakali Nishadam gives ragas a bright, uplifting character as the leading tone to upper Shadjam.',
+      ragas: [
+        { name: 'Shankarabharanam', melakarta: 29, scale: 'S R₂ G₃ M₁ P D₂ N₃', description: 'N₃ serves as the natural leading tone' },
+        { name: 'Kalyani', melakarta: 65, scale: 'S R₂ G₃ M₂ P D₂ N₃', description: 'N₃ completes Kalyani\'s brilliance' },
+        { name: 'Mayamalavagowla', melakarta: 15, scale: 'S R₁ G₃ M₁ P D₁ N₃', description: 'N₃ adds brightness to this foundational raga' },
+        { name: 'Hamsadhwani', janya: true, scale: 'S R₂ G₃ P N₃', description: 'N₃ is essential to Hamsadhwani\'s joyful character' },
+      ]
+    },
+  };
 
   const StringPositionBar = ({ ratio }) => {
     const position = parseFloat(getStringPosition(ratio));
@@ -578,6 +676,32 @@ const CarnaticSwaraExplorer = () => {
                   </div>
                   <StringPositionBar ratio={selectedSwara.ratio} />
                   <p className="mt-3 text-amber-700">{selectedSwara.description}</p>
+                  {raagaExamples[selectedSwara.name] && (
+                    <div className="mt-4 pt-3 border-t border-amber-200">
+                      <h5 className="text-sm font-semibold text-amber-800 mb-2">
+                        Example Raagas{selectedSwara.name !== 'S' && selectedSwara.name !== 'P' && selectedSwara.name !== 'Ṡ' ? ` using ${selectedSwara.fullName || selectedSwara.name}` : ''}
+                      </h5>
+                      <p className="text-xs text-amber-600 mb-3">{raagaExamples[selectedSwara.name].description}</p>
+                      {raagaExamples[selectedSwara.name].ragas.length > 0 && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                          {raagaExamples[selectedSwara.name].ragas.map((raga, i) => (
+                            <div key={i} className="p-2 bg-white bg-opacity-70 rounded border border-amber-200">
+                              <div className="font-semibold text-sm text-amber-900">
+                                {raga.name}
+                                {raga.melakarta && <span className="text-xs font-normal ml-1">(Melakarta #{raga.melakarta})</span>}
+                                {raga.janya && <span className="text-xs font-normal ml-1">(Janya raga)</span>}
+                              </div>
+                              <div className="font-mono text-xs mt-1 text-amber-800">{raga.scale}</div>
+                              {raga.noteUsedAs && (
+                                <div className="text-xs text-amber-600">Note used as: <strong>{raga.noteUsedAs}</strong></div>
+                              )}
+                              <div className="text-xs text-amber-700 mt-1">{raga.description}</div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               )}
             </div>

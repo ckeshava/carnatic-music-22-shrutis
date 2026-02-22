@@ -1,6 +1,6 @@
 # Carnatic 22 Shruti Explorer
 
-An interactive educational tool for learning the 22 shrutis of Carnatic classical music.
+An interactive educational tool for learning the 22 shrutis of Carnatic classical music. Please visit https://ckeshava.github.io/carnatic-music-22-shrutis/ to view the content of this website.
 
 ## Features
 
